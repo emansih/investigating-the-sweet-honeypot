@@ -1,0 +1,2 @@
+This repository is a complementary to a write up I have done for [RISC](https://risc.melbourne/blog/2020/09/22/investigating-the-sweet-honeypot/).
+It contains all the data and relevant scripts used in my research. Everything in this repository is licensed under WTFPL. 

@@ -1,0 +1,50 @@
+[Unit]
+Description=Endlessh SSH Tarpit
+Documentation=man:endlessh(1)
+Requires=network-online.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30sec
+ExecStart=/bin/endlessh
+KillSignal=SIGTERM
+# Stop trying to restart the service if it restarts too many times in a row
+StartLimitInterval=5min
+StartLimitBurst=4
+
+StandardOutput=journal
+StandardError=journal
+StandardInput=null
+
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+InaccessiblePaths=/run /var
+
+## If you want Endlessh to bind on ports < 1024
+## 1) run:
+##     setcap 'cap_net_bind_service=+ep' /usr/local/bin/endlessh
+## 2) uncomment following line
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+## 3) comment following line
+#PrivateUsers=true
+
+NoNewPrivileges=true
+ConfigurationDirectory=endlessh
+ProtectKernelLogs=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_INET AF_INET6
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+SystemCallArchitectures=native
+SystemCallFilter=@basic-io @file-system @io-event @network-io @signal
+SystemCallFilter=arch_prctl brk mprotect
+
+[Install]
+WantedBy=multi-user.target
